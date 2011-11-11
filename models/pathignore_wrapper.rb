@@ -10,7 +10,7 @@ class PathignoreWrapper < Jenkins::Tasks::BuildWrapper
   end
 
   # Here we test if any of the changes warrant a build
-  def setup(build, launcher, listener, env)
+  def setup(build, launcher, listener)
     patterns = @ignored_paths.split(',').collect { |p| p.strip }
     verb = if invert_ignore then "Including" else "Ignoring" end
     listener.info "#{verb} paths matching patterns: #{patterns.inspect}"
