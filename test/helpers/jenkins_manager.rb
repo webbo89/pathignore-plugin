@@ -42,7 +42,9 @@ module Helpers
       copy_plugin(path)
     end
 
-    def download_file(url_str, output)
+    def download_file(url_str, output, tries=5)
+      raise RedirectLimitError, "Too many redirects trying to download file" if tries < 1
+
       url = URI.parse(url_str)
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true if url_str.start_with?('https')
@@ -50,8 +52,7 @@ module Helpers
 
       http.request_get(url.path) do |resp|
         if resp.kind_of?(Net::HTTPRedirection)
-          # TODO: Redirect limit?
-          download_file(resp['location'], output)
+          download_file(resp['location'], output, tries - 1)
         else
           resp.value
           resp.read_body do |segment|
