@@ -36,21 +36,23 @@ module Helpers
     @repo.commit_index(message)
   end
 
-  def create_job(job_name, config)
-    Jenkins::Api.create_job(job_name, config)
-    build_job_and_wait(job_name)
+  def create_job(job, config)
+    Jenkins::Api.create_job(job, config)
+    build_job_and_wait(job)
   end
 
-  def build_job_and_wait(job_name)
-      return nil if not Jenkins::Api.build_job(job_name)
+  def build_job_and_wait(job=nil)
+      job ||= job_name
+
+      return nil if not Jenkins::Api.build_job(job)
 
       begin
-        job = Jenkins::Api.job(job_name)
-      end while not job['queueItem'].nil? or job['builds'].empty?
+        job_info = Jenkins::Api.job(job)
+      end while not job_info['queueItem'].nil? or job_info['builds'].empty?
 
-      number = job['builds'].first['number']
+      number = job_info['builds'].first['number']
       begin
-        build = Jenkins::Api.build_details(job_name, number)
+        build = Jenkins::Api.build_details(job, number)
       end while build['building']
 
       build
