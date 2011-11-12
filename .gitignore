@@ -6,3 +6,4 @@
 .DS_Store
 /.plugin_cache/
 .*.swp
+.*.swo

@@ -44,11 +44,17 @@ module Helpers
   def build_job_and_wait(job=nil)
       job ||= job_name
 
+      # TODO: Use job_info['nextBuildNumber'] and
+      # job_info['builds'].first['number'] or
+      # job_info['lastCompletedBuild']['number']?
+      job_info = Jenkins::Api.job(job)
+      original_num_builds = job_info['builds'].length
+
       return nil if not Jenkins::Api.build_job(job)
 
       begin
         job_info = Jenkins::Api.job(job)
-      end while not job_info['queueItem'].nil? or job_info['builds'].empty?
+      end while not job_info['queueItem'].nil? or job_info['builds'].length <= original_num_builds
 
       number = job_info['builds'].first['number']
       begin
