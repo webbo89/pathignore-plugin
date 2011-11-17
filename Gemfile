@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "jenkins-plugin-runtime", "~> 0.1.13"
+gem "jenkins-plugin-runtime", "~> 0.1.14"
 group :development do
   gem "rake"
   gem "rdoc"
