@@ -2,8 +2,6 @@ module Helpers
   # Custom TestCase that takes care of setup / teardown of Jenkins, git
   # repository, Jenkins::Api and parts of the JobConfigBuilder
   class TestCase < Test::Unit::TestCase
-    RUBY_RUNTIME = 'https://updates.jenkins-ci.org/latest/ruby-runtime.hpi'
-    GIT_PLUGIN = 'https://updates.jenkins-ci.org/latest/git.hpi'
     JENKINS_PORT = 1025 + rand(2**16 - 1024)
     JENKINS_CONTROL_PORT = 1025 + rand(2**16 - 1024)
 
@@ -15,7 +13,7 @@ module Helpers
       @jenkins.copy_plugin(Helpers.hpi_path)
 
       # TODO: Get ruby-runtime from pluginspec dependencies?
-      @jenkins.download_plugin('ruby-runtime', '0.4')
+      @jenkins.download_plugin('ruby-runtime', '0.6')
       @jenkins.download_plugin('git', '1.1.12')
 
       @jenkins.start

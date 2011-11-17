@@ -8,5 +8,5 @@ Jenkins::Plugin::Specification.new do |plugin|
   plugin.developed_by 'jorgenpt', 'Jørgen P. Tjernø <jorgenpt@gmail.com>'
   plugin.uses_repository :github => 'pathignore-plugin'
 
-  plugin.depends_on 'ruby-runtime', '0.5'
+  plugin.depends_on 'ruby-runtime', '0.6'
 end
