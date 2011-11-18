@@ -17,10 +17,12 @@ module Helpers
   end
 
   def assert_build_success(build)
+    assert_not_nil(build)
     assert_equal(build['result'], 'SUCCESS')
   end
 
   def assert_build_not_built(build)
+    assert_not_nil(build)
     assert_equal(build['result'], 'NOT_BUILT')
   end
 
