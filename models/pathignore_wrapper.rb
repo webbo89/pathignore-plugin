@@ -22,8 +22,12 @@ class PathignoreWrapper < Jenkins::Tasks::BuildWrapper
       # XXX: Can there be files in the changeset if it's manually triggered?
       # If so, how do we check for manual trigger?
       if changeset.isEmptySet()
-        listener.info "Empty changeset, running build."
-        return
+        if invert_ignore then
+          build.halt("Build not needed.")
+        else 
+          listener.info "Empty changeset, running build."
+          return
+        end
       end
 
       changeset.each do |change|
