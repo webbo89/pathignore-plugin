@@ -23,6 +23,8 @@ class PathignoreWrapper < Jenkins::Tasks::BuildWrapper
       # If so, how do we check for manual trigger?
       if changeset.isEmptySet()
         if invert_ignore then
+          listener.info "Found no changes to the repo at all"
+          build.native.setResult(Java.hudson.model.Result::NOT_BUILT)          
           build.halt("Build not needed.")
         else 
           listener.info "Empty changeset, running build."
